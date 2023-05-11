@@ -1,58 +1,63 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
+import Root from './app/root';
+import ErrorPage from './common/components/errorPage/errorPage';
+import UserProfile from './features/userProfile/userProfile';
+import Login from './features/login/login';
+import CreatePlaylist from './features/createPlaylist/createPlaylist';
+import UserPlaylists from './features/userPlaylists/userPlaylists';
+import RecommendedArtists from './features/recommendedArtists/recommendedArtists';
+import SongFinder from './features/songFinder/songFinder';
+import routes from './routes/routes';
+import { createBrowserRouter,
+  RouterProvider } from 'react-router-dom';
+import CurrentPlaylist from './features/currentPlaylist/currentPlaylist';
 
-function App() {
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: routes.login(),
+        element: <Login />
+      },
+      {
+        path: routes.user(),
+        element: <UserProfile/>
+      },
+      {
+        path: routes.createPlaylist(),
+        element: <CreatePlaylist />
+      },
+      {
+        path: routes.userPlaylists(),
+        element: <UserPlaylists />
+      },
+      {
+        path: routes.currentPlaylist(),
+        element: <CurrentPlaylist />
+      },
+      {
+        path: routes.recommendedArtists(),
+        element: <RecommendedArtists />
+      },
+      {
+        path: routes.songFinder(),
+        element: <SongFinder />
+      }
+      
+    ]
+  }
+])
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    <RouterProvider router={router}/>
+  )
+
+
 }
 
-export default App;
+
