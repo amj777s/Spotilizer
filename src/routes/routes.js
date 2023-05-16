@@ -8,7 +8,8 @@ const routes = {
     userPlaylists: () => '/playlists',
     currentPlaylist: () => '/playlists/:playlist',
     recommendedArtists: () => '/:artists/recommendedArtists',
-    songFinder: () => '/songFinder'
+    songFinder: () => '/songFinder',
+    authorized: () => '/authorized'
 
 }
 

@@ -1,12 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import routes from "../../routes/routes";
+import Spotify from "../../spotify/spotify";
 
 export default function Login() {
     return (
         <div>
             <p>welcome to Spotilizer. login to view user stats and features</p>
-            <Link to={routes.homeRoute()}>Login</Link>
+            <button onClick={()=> Spotify.getSpotifyAuth()}>LOG IN </button>
         </div>
     )
 }

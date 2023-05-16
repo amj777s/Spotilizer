@@ -1,17 +1,21 @@
 import React from 'react';
+import { SkeletonTheme } from 'react-loading-skeleton';
 import './App.css';
 import Root from './app/root';
+import Authorized from './common/components/Authorized/Authorized';
 import ErrorPage from './common/components/errorPage/errorPage';
 import UserProfile from './features/userProfile/userProfile';
-import Login from './features/login/login';
 import CreatePlaylist from './features/createPlaylist/createPlaylist';
 import UserPlaylists from './features/userPlaylists/userPlaylists';
 import RecommendedArtists from './features/recommendedArtists/recommendedArtists';
 import SongFinder from './features/songFinder/songFinder';
-import routes from './routes/routes';
-import { createBrowserRouter,
-  RouterProvider } from 'react-router-dom';
 import CurrentPlaylist from './features/currentPlaylist/currentPlaylist';
+import routes from './routes/routes';
+import {
+  createBrowserRouter,
+  RouterProvider
+} from 'react-router-dom';
+
 
 const router = createBrowserRouter([
   {
@@ -20,12 +24,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: routes.login(),
-        element: <Login />
+        path: routes.authorized(),
+        element: <Authorized />
       },
       {
         path: routes.user(),
-        element: <UserProfile/>
+        element: <UserProfile />
       },
       {
         path: routes.createPlaylist(),
@@ -47,14 +51,16 @@ const router = createBrowserRouter([
         path: routes.songFinder(),
         element: <SongFinder />
       }
-      
+
     ]
   }
 ])
 
 export default function App() {
   return (
-    <RouterProvider router={router}/>
+    <SkeletonTheme baseColor='#1efa2f' highlightColor='#99faa0 '>
+      <RouterProvider router={router} />
+    </SkeletonTheme>
   )
 
 

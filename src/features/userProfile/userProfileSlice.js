@@ -1,45 +1,51 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Spotify from "../../spotify/spotify";
 
-const getUserProfile = createAsyncThunk(
-    'userProfile/getUserProfile',
-    async (search) => {
-        const response = await fetc(search);
-        const json = await response.json();
-        return json;
-    }
+
+
+export const getToken = createAsyncThunk(
+    'userProfile/getToken',
+    Spotify.getAccessToken
 )
+
+export const getUser = createAsyncThunk(
+    'userProfile/getUser',
+    Spotify.getUser
+)
+
 
 const options = {
     name: 'userProfile',
     initialState: {
         isLoading: false,
         hasFailed: false,
-        userInfo: {}
+        userInfo: {},
+        tokenInfo: {
+            access_token: ''
+        }
+    },
+    reducers: {
 
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getUserProfile.pending, state => {
-                state.isLoading = true;
-                state.hasFailed = false;
-            })
             
-            .addCase(getUserProfile.fulfilled, (state,action) => {
-                state.isLoading = false;
-                state.hasFailed = false;
-                state.userInfo = {
-                    username: action.payload.username,
-                    followers: action.payload.followers,
-                    following: action.payload.following
+
+            //fill in pending and rejected
+            .addCase(getToken.fulfilled, (state,action) => {
+                //prevents double load error in restrict mode
+                if(action.payload){
+                state.tokenInfo= action.payload;
                 }
             })
 
-            .addCase(getUserProfile.rejected, state => {
-                state.isLoading = false;
-                state.hasFailed = true;
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.userInfo = action.payload;
             })
     }
 }
 
 const userProfileSlice = createSlice(options);
+export const  selectAccessToken = state => state.userProfile.tokenInfo.access_token;
+export const selectUserInfo = state => state.userProfile.userInfo;
 export default userProfileSlice.reducer;
